@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <title>For Xiaoduo · 元宵烟花祝福</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.16) 0, transparent 35%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.12) 0, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0, transparent 30%),
+        radial-gradient(circle at 90% 90%, rgba(255, 255, 255, 0.08) 0, transparent 40%),
+        radial-gradient(circle at 50% 30%, #141b38 0, #05091f 55%, #01010e 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      overflow: hidden;
+      cursor: crosshair;
+      color: #fef7e3;
+      position: relative;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1.2px 1.2px at 30% 80%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1px 1px at 70% 30%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1.4px 1.4px at 80% 60%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(0.8px 0.8px at 20% 50%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1.3px 1.3px at 60% 15%, rgba(255, 255, 255, 0.9), transparent);
+      opacity: 0.9;
+      animation: stars-twinkle 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes stars-twinkle {
+      0% { opacity: 0.7; filter: blur(0.1px); }
+      50% { opacity: 1; filter: blur(0); }
+      100% { opacity: 0.8; filter: blur(0.15px); }
+    }
+
+    .moon-wrapper {
+      position: fixed;
+      top: 12%;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .moon {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 20%, #ffffff 0, #fff9e2 28%, #f6dfaa 52%, #e4c579 70%, transparent 100%);
+      box-shadow:
+        0 0 40px rgba(255, 245, 210, 0.95),
+        0 0 90px rgba(255, 230, 160, 0.88);
+      position: relative;
+    }
+
+    .moon::after {
+      content: "";
+      position: absolute;
+      inset: 10px 26px 10px 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 70% 40%, rgba(0, 0, 0, 0.05) 0, rgba(0, 0, 0, 0.3) 80%);
+      mix-blend-mode: multiply;
+    }
+
+    .hint {
+      position: fixed;
+      bottom: 18px;
+      right: 26px;
+      font-size: 13px;
+      opacity: 0.82;
+      letter-spacing: 1.6px;
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.75);
+      pointer-events: none;
+    }
+
+    .message-box {
+      position: fixed;
+      left: 50%;
+      bottom: 60px;
+      transform: translateX(-50%);
+      padding: 14px 30px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.2), transparent 55%),
+                  linear-gradient(120deg, rgba(40, 20, 70, 0.9), rgba(90, 40, 140, 0.96), rgba(30, 18, 70, 0.9));
+      border: 1px solid rgba(255, 235, 190, 0.8);
+      box-shadow:
+        0 0 14px rgba(220, 180, 120, 0.9),
+        0 0 40px rgba(70, 40, 140, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: min(88vw, 720px);
+      pointer-events: none;
+      opacity: 0;
+      transform-origin: center;
+    }
+
+    .message-box.show {
+      animation: message-in 0.35s ease-out forwards;
+    }
+
+    @keyframes message-in {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px) scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
+    }
+
+    .message-text {
+      font-family: "STKaiti", "KaiTi", "Songti SC", "PingFang SC", "Hiragino Sans GB", serif;
+      font-size: clamp(15px, 4vw, 18px);
+      letter-spacing: 2px;
+      color: #ffeecd;
+      display: inline-block;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .ch {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(8px);
+      filter: blur(3px);
+      animation: char-in 0.6s ease-out forwards, glow-breathe 2.6s ease-in-out infinite 0.6s;
+    }
+
+    @keyframes char-in {
+      0% {
+        opacity: 0;
+        transform: translateY(12px);
+        filter: blur(5px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes glow-breathe {
+      0% {
+        text-shadow:
+          0 0 8px rgba(255, 244, 210, 0.85),
+          0 0 18px rgba(255, 220, 140, 0.9),
+          0 0 30px rgba(255, 180, 90, 0.75);
+      }
+      50% {
+        text-shadow:
+          0 0 3px rgba(255, 244, 210, 0.7),
+          0 0 10px rgba(255, 220, 140, 0.65),
+          0 0 18px rgba(255, 190, 100, 0.55);
+      }
+      100% {
+        text-shadow:
+          0 0 9px rgba(255, 244, 210, 0.9),
+          0 0 20px rgba(255, 220, 140, 1),
+          0 0 34px rgba(255, 180, 90, 0.85);
+      }
+    }
+
+    .firework-core {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      animation: core-fade 1.2s ease-out forwards;
+    }
+
+    @keyframes core-fade {
+      0% {
+        opacity: 1;
+        box-shadow:
+          0 0 18px rgba(255, 255, 240, 1),
+          0 0 32px rgba(255, 250, 210, 0.95),
+          0 0 50px rgba(255, 230, 170, 0.85);
+      }
+      100% {
+        opacity: 0;
+        box-shadow:
+          0 0 0 rgba(255, 255, 240, 0),
+          0 0 0 rgba(255, 250, 210, 0),
+          0 0 0 rgba(255, 230, 170, 0);
+      }
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 14px;
+      border-radius: 999px;
+      transform-origin: center bottom;
+      left: 50%;
+      top: 50%;
+      opacity: 0;
+      background: transparent;
+      animation: particle-explode 1.18s cubic-bezier(0.18, 0.8, 0.22, 0.99) forwards;
+    }
+
+    .particle::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 1),
+        var(--color),
+        rgba(0, 0, 0, 0)
+      );
+    }
+
+    @keyframes particle-explode {
+      0% {
+        opacity: 0;
+        transform: rotate(var(--angle)) translateY(0) scaleY(0.2);
+      }
+      18% {
+        opacity: 1;
+      }
+      75% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: rotate(var(--angle)) translateY(var(--distance)) scaleY(1.1);
+      }
+    }
+
+    .particle.trail {
+      height: 18px;
+      animation-duration: 1.4s;
+    }
+
+    .particle.soft {
+      height: 12px;
+      opacity: 0;
+      animation-duration: 1.5s;
+    }
+
+    .particle.soft::before {
+      background: radial-gradient(circle at top, #ffffff, var(--color), rgba(0, 0, 0, 0));
+    }
+
+    @media (max-width: 600px) {
+      .moon {
+        width: 130px;
+        height: 130px;
+      }
+
+      .moon-wrapper {
+        top: 10%;
+      }
+
+      .message-box {
+        bottom: 40px;
+        padding: 10px 18px;
+        max-width: 92vw;
+      }
+
+      .hint {
+        font-size: 11px;
+        right: 14px;
+        bottom: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgm" src="bgm.mp3" preload="auto" loop></audio>
+  <div class="stars"></div>
+  <div class="moon-wrapper">
+    <div class="moon"></div>
+  </div>
+
+  <div class="message-box" id="messageBox">
+    <div class="message-text" id="messageText"></div>
+  </div>
+
+  <div class="hint">在星空任意处点击，给小垛放一朵彩虹烟花 ✧</div>
+
+  <script>
+    (function () {
+      const messages = [
+        "小垛元宵节快乐，愿你眼里有光，心里的火永不熄灭。",
+        "小垛天天开心",
+        "小垛要按时吃饭呀",
+      ];
+
+      const messageBox = document.getElementById("messageBox");
+      const messageText = document.getElementById("messageText");
+      const bgm = document.getElementById("bgm");
+      let musicStarted = false;
+
+      function randomMessage() {
+        return messages[Math.floor(Math.random() * messages.length)];
+      }
+
+      function colorFromHue(h) {
+        return "hsl(" + h + ", 100%, 70%)";
+      }
+
+      function createFirework(x, y) {
+        const hueBase = Math.floor(Math.random() * 360);
+
+        const core = document.createElement("div");
+        core.className = "firework-core";
+        core.style.left = x + "px";
+        core.style.top = y + "px";
+        const coreColor = colorFromHue(hueBase);
+        core.style.background = coreColor;
+        document.body.appendChild(core);
+
+        const total = 40;
+        for (let i = 0; i < total; i++) {
+          const p = document.createElement("div");
+          p.className = "particle";
+          if (i % 3 === 0) p.classList.add("trail");
+          if (i % 5 === 0) p.classList.add("soft");
+
+          const angle = (360 / total) * i + (Math.random() * 12 - 6);
+          const dist = 55 + Math.random() * 55;
+          const hue = (hueBase + i * 7 + Math.random() * 20) % 360;
+          p.style.setProperty("--angle", angle + "deg");
+          p.style.setProperty("--distance", dist + "px");
+          p.style.setProperty("--color", colorFromHue(hue));
+
+          core.appendChild(p);
+        }
+
+        setTimeout(() => {
+          core.remove();
+        }, 1600);
+      }
+
+      function showMessage(text) {
+        messageText.innerHTML = "";
+
+        const chars = Array.from(text);
+        chars.forEach((ch, index) => {
+          const span = document.createElement("span");
+          span.className = "ch";
+          span.textContent = ch;
+          const delay = 0.03 * index;
+          span.style.animationDelay = delay + "s, " + (0.6 + delay) + "s";
+          messageText.appendChild(span);
+        });
+
+        messageBox.classList.remove("show");
+        void messageBox.offsetWidth;
+        messageBox.classList.add("show");
+      }
+
+      document.addEventListener("click", function (e) {
+        const x = e.clientX;
+        const y = e.clientY;
+
+        if (!musicStarted && bgm) {
+          musicStarted = true;
+          const playPromise = bgm.play();
+          if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(function () {
+              // 某些浏览器仍然可能拦截播放，这里静默忽略即可
+            });
+          }
+        }
+
+        createFirework(x, y);
+        showMessage(randomMessage());
+      });
+    })();
+  </script>
+</body>
+</html>
+
